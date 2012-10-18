@@ -101,3 +101,9 @@ UpgradeLog*.XML
 
 # NuGet
 packages/
+
+# 2-Plan project management metadata
+.metadata/
+templates/
+*.intime_workspace
+[Rr]eport/

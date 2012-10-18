@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<model:Project xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:model="http://www.2b-intime.com/model" name="3D Scanner" context="manual" UUID="_KeLgQBliEeKC9c7gJRVTMg" description="Implementing a 3D scanner that will reproduce real-world objects as 3D computer meshes." startDate="2012-10-18T08:00:00.000-0700" finishDate="2013-05-17T08:00:23.207-0700" budget="100.0">
+  <maps type="net.intime.crud.xml.map.path">
+    <entries key="path" value="3D Scanner"/>
+  </maps>
+  <maps type="manual">
+    <entries key="net.intime.product.mapentry.standardWorkPackageType" value="2"/>
+  </maps>
+  <calendar context="manual" UUID="_KewIABliEeKC9c7gJRVTMg"/>
+  <workPackages name="Scanning Stage Construction" context="manual" UUID="_SbxsIBlmEeKpE-wHIpiAxQ" description="Construct our scanning stage" type="manual" startDate="2012-10-18T13:56:29.127-0700" finishDate="2012-10-25T13:56:29.127-0700" milestone="//@milestones.0"/>
+  <workPackages name="Intensity Plot" context="manual" UUID="_riiqUBloEeKpE-wHIpiAxQ" description="Work on getting an intensity plot done for a single row of pixels." type="manual" startDate="2012-10-18T14:13:36.584-0700" finishDate="2012-10-25T14:13:36.584-0700" milestone="//@milestones.1"/>
+  <workPackages name="Prototype Stepper Motor Control" context="manual" UUID="_7KugIBloEeKpE-wHIpiAxQ" description="Work on getting a basic C function to control the stepper motor implemented and attempt to successfully run it with the stepper motor and development board." type="manual" startDate="2012-10-18T14:19:26.631-0700" finishDate="2012-10-25T14:19:26.631-0700" milestone="//@milestones.2"/>
+  <workPackages name="Connect stepper motor to Dev Board" context="manual" UUID="_ft0poBlpEeKpE-wHIpiAxQ" description="Connect the stepper motor to the H-Bridges on the Dragon12 Dev Board and develop a voltage divider to provide power to the stepper motor." type="manual" startDate="2012-10-18T14:19:26.632-0700" finishDate="2012-10-25T14:19:26.632-0700" milestone="//@milestones.3"/>
+  <persons name="Grady Barrett" context="manual" UUID="_TvwZUBliEeKC9c7gJRVTMg" firstName="Grady" initials="GB">
+    <costRates name="-" context="manual" UUID="_UD1y8BliEeKC9c7gJRVTMg"/>
+  </persons>
+  <persons name="Tyler Gunter" context="manual" UUID="_f1cYwBliEeKC9c7gJRVTMg" firstName="Tyler" initials="TG">
+    <costRates name="-" context="manual" UUID="_gH7P4BliEeKC9c7gJRVTMg"/>
+  </persons>
+  <persons name="Jeff Bishop" context="manual" UUID="_kCC8EBliEeKC9c7gJRVTMg" firstName="Jeff" initials="JB">
+    <costRates name="-" context="manual" UUID="_kaGPsBliEeKC9c7gJRVTMg"/>
+  </persons>
+  <milestones name="Completed Scanning Stage" context="manual" UUID="_PiMXQBljEeKC9c7gJRVTMg" date="2012-10-26T08:00:31.955-0700" description="Scanning stage is built"/>
+  <milestones name="Intensity Plot Attempted" context="manual" UUID="_GyiNkRllEeKpE-wHIpiAxQ" date="2012-10-26T08:00:49.734-0700" description="Attempted to plot the light intensity for a single horizontal line of pixels to see if we can pick out the laser from the background."/>
+  <milestones name="Basic Stepper Motor Function Pro" context="manual" UUID="_qGBwYBllEeKpE-wHIpiAxQ" date="2012-10-26T08:00:11.272-0700" description="Have a simple working prototype for a C function to control the stepper motor speed/direction and have attempted to test this function using the Dragon12 board and stepper motor."/>
+  <milestones name="Stepper Motor Connected to Dev Board" context="manual" UUID="_TmfEYBlpEeKpE-wHIpiAxQ" date="2012-10-26T08:00:47.860-0700" description="Successfully connect the stepper motor to the H-Bridges on the Dragon12 Dev Board."/>
+</model:Project>
