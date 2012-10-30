@@ -107,3 +107,6 @@ packages/
 templates/
 *.intime_workspace
 [Rr]eport/
+
+# Computer specific debug and release OpenCV Properties
+OpenCV*.props
