@@ -109,5 +109,4 @@ templates/
 [Rr]eport/
 
 # Computer specific debug and release OpenCV Properties
-OpenCV_Debug.props
-OpenCV_Release.props
+/OpenCV*.props
