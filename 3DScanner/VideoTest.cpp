@@ -2,6 +2,9 @@
 #include <highgui.h>
 #include <stdio.h>  
 #include <stdlib.h>
+#include <iostream>
+#include <fstream>
+using namespace std;
 
 using namespace cv;
 
@@ -62,6 +65,13 @@ int main() {
 		//If ESC key pressed, Key=0x10001B under OpenCV 0.9.7(linux version),
 		//remove higher bits using AND operator
 		if ( (cvWaitKey(10) & 255) == 27 ) {
+			ofstream myFile;
+			myFile.open("intensity.txt", ios::out);
+			for (int i = 0; i < redFrameWidth; i++) {
+			s = cvGet2D(hsvFrame,pixelRow,i);
+			myFile << s.val[2] << "," << "\n";
+		}
+			myFile.close();
 			break;
 		}
 		frame = cvQueryFrame( capture );
