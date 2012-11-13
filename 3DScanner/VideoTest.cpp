@@ -43,31 +43,20 @@ int main() {
 		cvInRangeS(hsvFrame, cvScalar(0, 100, 100), cvScalar(35, 240, 240), redFrame); 
 		cvShowImage("mywindowred", redFrame);
 
-		int redFrameWidth = redFrame->width;
-		int redFrameHeight = redFrame->height;
+		int hsvFrameWidth = hsvFrame->width;
+		int hsvFrameHeight = hsvFrame->height;
 
-		int pixelRow = redFrameHeight / 2;
+		int pixelRow = hsvFrameHeight / 2;
 
 		CvScalar s;
-
-		printf("intensity");
-
-		for (int i = 0; i < redFrameWidth; i++) {
-			s = cvGet2D(hsvFrame,pixelRow,i);
-			printf("%f,", s.val[2]);
-		}
-
-		printf("\n");
-		
-		
 
 		// Do not release the frame!
 		//If ESC key pressed, Key=0x10001B under OpenCV 0.9.7(linux version),
 		//remove higher bits using AND operator
 		if ( (cvWaitKey(10) & 255) == 27 ) {
 			ofstream myFile;
-			myFile.open("intensity.txt", ios::out);
-			for (int i = 0; i < redFrameWidth; i++) {
+			myFile.open("C:\\Users\\Scanners\\Desktop\\intensity.txt", ios::out);
+			for (int i = 0; i < hsvFrameWidth; i++) {
 			s = cvGet2D(hsvFrame,pixelRow,i);
 			myFile << s.val[2] << "," << "\n";
 		}
