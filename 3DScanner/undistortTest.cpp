@@ -92,11 +92,7 @@ int main(int argc, char* argv[]) {
 		cvCvtColor(image, gray_image, CV_BGR2GRAY);
 		cvFindCornerSubPix(gray_image, corners, corner_count, 
 			cvSize(11,11),cvSize(-1,-1), cvTermCriteria( CV_TERMCRIT_EPS+CV_TERMCRIT_ITER, 30, 0.1 ));
-		//Draw it
-
-		cvDrawChessboardCorners(image, board_sz, corners, corner_count, found);
-		cvShowImage( "Calibration", image);
-
+		
 		// If we got a good board, add it to our data
 		if( corner_count == numInternalCorners ) {
 			step = successes*numInternalCorners;
@@ -140,7 +136,7 @@ int main(int argc, char* argv[]) {
 		CV_MAT_ELEM(*object_points2,float,i,1) = CV_MAT_ELEM(*object_points,float,i,1) ;
 		CV_MAT_ELEM(*object_points2,float,i,2) = CV_MAT_ELEM(*object_points,float,i,2) ;
 		CV_MAT_ELEM(*points_for_undistortion,CvPoint2D32f,i,0) = corners[i];
-		
+
 	} 
 	for(int i=0; i<successes; ++i){
 		CV_MAT_ELEM(*point_counts2,int,i, 0) = CV_MAT_ELEM(*point_counts, int,i,0);
@@ -173,9 +169,17 @@ int main(int argc, char* argv[]) {
 	myFile.close();
 	myFile2.close();
 
-	cvSave("DistortedPoints.xml",points_for_undistortion);
-	cvSave("UndistortedPoints.xml",undistorted_points);
-
+	// Build the undistort map which we will use for all 
+	// subsequent frames.
+	IplImage* mapx = cvCreateImage( cvGetSize(image), IPL_DEPTH_32F, 1 );
+	IplImage* mapy = cvCreateImage( cvGetSize(image), IPL_DEPTH_32F, 1 );
+	printf("cvInitUndistortMap\n");
+	cvInitUndistortMap(
+		intrinsic,
+		distortion,
+		mapx,
+		mapy
+		);
 	// Just run the camera to the screen, now only showing the undistorted
 	// image.
 	rewind(fptr);
@@ -188,11 +192,14 @@ int main(int argc, char* argv[]) {
 		}  
 		image = cvLoadImage( names);
 		IplImage *t = cvCloneImage(image);
+		cvDrawChessboardCorners(image, board_sz, corners, corner_count, found);
+		cvShowImage( "Calibration", image );
+		cvRemap( t, image, mapx, mapy );
 		cvReleaseImage(&t);
 		cvDrawChessboardCorners(image, board_sz, corners, corner_count, found);
 		cvShowImage("Undistort", image);
 		if((cvWaitKey()&0x7F) == 27) break;  
-	}
 
-	return 0;
-} 
+		return 0;
+	}
+}
