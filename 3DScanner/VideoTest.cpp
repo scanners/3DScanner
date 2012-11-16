@@ -57,7 +57,7 @@ int main() {
 			ofstream myFile;
 			myFile.open("C:\\Users\\Scanners\\Desktop\\intensity.txt", ios::out);
 			for (int i = 0; i < hsvFrameWidth; i++) {
-			s = cvGet2D(hsvFrame,pixelRow,i);
+			s = cvGet2D(frame,pixelRow,i);
 			myFile << s.val[2] << "," << "\n";
 		}
 			myFile.close();
