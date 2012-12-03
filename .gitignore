@@ -110,3 +110,10 @@ templates/
 
 # Computer specific debug and release OpenCV Properties
 *OpenCV*.props
+
+## Ignore Visual Paradigm files temp files, etc.
+*.vpp~*
+.vpprefdata
+tmp
+teamworkUser.xml
+*.lock
