@@ -4,13 +4,56 @@
 #include <stdlib.h>
 #include <iostream>
 #include <fstream>
+#include <tchar.h>
+#include "Serial.h"
+
 using namespace std;
 
 using namespace cv;
 
+int ShowError (LONG lError, LPCTSTR lptszMessage)
+{
+	// Generate a message text
+	TCHAR tszMessage[256];
+	wsprintf(tszMessage,_T("%s\n(error code %d)"), lptszMessage, lError);
+
+	// Display message-box and return with an error-code
+	::MessageBox(0,tszMessage,_T("Hello world"), MB_ICONSTOP|MB_OK);
+	return 1;
+}
+
+bool serialSetupAndComm(){
+	CSerial serial;
+	LONG lLastError = ERROR_SUCCESS;
+
+	// Attempt to open the serial port (COM1)
+    lLastError = serial.Open(_T("COM1"),0,0,false);
+	if (lLastError != ERROR_SUCCESS)
+		return ::ShowError(serial.GetLastError(), _T("Unable to open COM-port"));
+	
+	//Setup the Serial Port
+	lLastError = serial.Setup(CSerial::EBaud9600,CSerial::EData8,CSerial::EParNone,CSerial::EStop1);
+	if (lLastError != ERROR_SUCCESS)
+		return ::ShowError(serial.GetLastError(), _T("Unable to set COM-port setting"));
+
+	// Setup handshaking
+    lLastError = serial.SetupHandshaking(CSerial::EHandshakeHardware);
+	if (lLastError != ERROR_SUCCESS)
+		return ::ShowError(serial.GetLastError(), _T("Unable to set COM-port handshaking"));
+
+    // The serial port is now ready and we can send/receive data. If
+	// the following call blocks, then the other side doesn't support
+	// hardware handshaking.
+    lLastError = serial.Write("scan\n");
+	if (lLastError != ERROR_SUCCESS)
+		return ::ShowError(serial.GetLastError(), _T("Unable to send data"));
+}
+
 // A Simple Camera Capture Framework 
 int main() {
 	CvCapture* capture = cvCaptureFromCAM( CV_CAP_ANY );
+
+	serialSetupAndComm;
 
 	if ( !capture ) {
 		fprintf( stderr, "ERROR: capture is NULL \n" );

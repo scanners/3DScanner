@@ -11,7 +11,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Serial.cpp" />
+    <ClCompile Include="SerialEx.cpp" />
     <ClCompile Include="VideoTest.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="Serial.h" />
+    <ClInclude Include="SerialEx.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="3DScanner.rc" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3101EF36-72DD-47F9-80FD-6709C4BABE3E}</ProjectGuid>
@@ -35,11 +45,11 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\OpenCV_Debug.props" />
+    <Import Project="C:\code\OpenCV_Debug.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="..\OpenCV_Release.props" />
+    <Import Project="C:\code\OpenCV_Release.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
