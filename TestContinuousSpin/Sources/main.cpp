@@ -18,7 +18,7 @@ void MSDelay(unsigned int itime){
 void interrupt 21 SCI1_ISR(void){
   const char *stop = "stop";
   
-  for(;;){
+  for(int i = 0; i < 150; i++){
     PORTB=0b00000011;   
     MSDelay(50);  
     PORTB=0b00000110;    
@@ -32,6 +32,16 @@ void interrupt 21 SCI1_ISR(void){
   while (*stop != '\0'){
     while (!(SCI1SR1 & 0x80));  /* wait for output buffer empty */
     SCI1DRL = *stop++;    //transmit back to signal finished scanning
+  }
+  
+  for(int i = 0; i < 150; i++){
+    PORTB=0b00001001;  
+    MSDelay(50);
+    PORTB=0b00001100;    
+    MSDelay(50);
+    PORTB=0b00000110;    
+    MSDelay(50);
+    PORTB=0b00000011;  
   }
 }
 
