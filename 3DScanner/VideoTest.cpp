@@ -51,9 +51,10 @@ bool serialSetupAndComm(){
 
 // A Simple Camera Capture Framework 
 int main() {
+	serialSetupAndComm();
 	CvCapture* capture = cvCaptureFromCAM( CV_CAP_ANY );
 
-	serialSetupAndComm;
+	
 
 	if ( !capture ) {
 		fprintf( stderr, "ERROR: capture is NULL \n" );
