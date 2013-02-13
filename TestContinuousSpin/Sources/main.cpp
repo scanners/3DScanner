@@ -14,6 +14,7 @@ void MSDelay(unsigned int itime){
     for(j=0;j<4000;j++);    //1 msec. tested using Scope
 }
 
+#pragma CODE_SEG __NEAR_SEG NON_BANKED
 void interrupt 21 SCI1_ISR(void){
   const char *stop = "stop";
   
