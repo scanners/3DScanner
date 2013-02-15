@@ -19,11 +19,11 @@ void interrupt 21 SCI1_ISR(void){
   const char *stop = "stop";
   
   for(int i = 0; i < 150; i++){
-    PORTB=0b00000011;   
+    PORTB=0b00001010;   
     MSDelay(50);  
     PORTB=0b00000110;    
     MSDelay(50);  
-    PORTB=0b00001100;    
+    PORTB=0b00000101;    
     MSDelay(50);  
     PORTB=0b00001001;  
     MSDelay(50);
@@ -35,18 +35,18 @@ void interrupt 21 SCI1_ISR(void){
   }
   
   for(int i = 0; i < 150; i++){
+    PORTB=0b00001010;
+    MSDelay(50);
     PORTB=0b00001001;  
     MSDelay(50);
-    PORTB=0b00001100;    
+    PORTB=0b00000101;    
     MSDelay(50);
-    PORTB=0b00000110;    
-    MSDelay(50);
-    PORTB=0b00000011;  
+    PORTB=0b00000110;  
   }
 }
 
 void main(void){
-  UserSCI1 = (unsigned short)&SCI1_ISR;
+  //UserSCI1 = (unsigned short)&SCI1_ISR;
   
   DDRB = 0x0F;      //PORTB0-PORTB3  as output 
   DDRP = 0x03;      //PORTP0 and PORTP1 as output for 12EN=1 and 34EN=1
@@ -63,6 +63,6 @@ void main(void){
   
   unsigned char rc = SCI1SR1; /* dummy read to clear flags and TDRE */
   SCI1DRH = 0x0000; /* data write to clear TDRE */
-  
+    
   while(1);         //Wait for the interrupt forever
 }
