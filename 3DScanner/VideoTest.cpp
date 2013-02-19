@@ -11,6 +11,8 @@ using namespace std;
 
 using namespace cv;
 
+enum { EOF_Char = 27 };
+
 int ShowError (LONG lError, LPCTSTR lptszMessage)
 {
 	// Generate a message text
@@ -40,6 +42,50 @@ bool serialSetupAndComm(){
     lLastError = serial.SetupHandshaking(CSerial::EHandshakeHardware);
 	if (lLastError != ERROR_SUCCESS)
 		return ::ShowError(serial.GetLastError(), _T("Unable to set COM-port handshaking"));
+
+	// Use 'non-blocking' reads, because we don't know how many bytes
+	// will be received. This is normally the most convenient mode
+	// (and also the default mode for reading data).
+    lLastError = serial.SetupReadTimeouts(CSerial::EReadTimeoutNonblocking);
+	if (lLastError != ERROR_SUCCESS)
+		return ::ShowError(serial.GetLastError(), _T("Unable to set COM-port read timeout."));
+
+	// Keep reading data, until an EOF (CTRL-Z) has been received
+	bool fContinue = true;
+	do {
+		// Wait for an event
+		lLastError = serial.WaitEvent();
+		if (lLastError != ERROR_SUCCESS)
+			return ::ShowError(serial.GetLastError(), _T("Unable to wait for a COM-port event."));
+
+		// Save event
+		const CSerial::EEvent eEvent = serial.GetEventType();
+
+		// Handle data receive event
+		if (eEvent & CSerial::EEventRecv) {
+			// Read data, until there is nothing left
+			DWORD dwBytesRead = 0;
+			char szBuffer[11];
+			do {
+				// Read data from the COM-port
+				lLastError = serial.Read(szBuffer,sizeof(szBuffer)-1,&dwBytesRead);
+				if (lLastError != ERROR_SUCCESS)
+					return ::ShowError(serial.GetLastError(), _T("Unable to read from COM-port."));
+
+				if (dwBytesRead > 0){
+					// Finalize the data, so it is a valid string
+					szBuffer[dwBytesRead] = '\0';
+
+					// Display the data
+					printf("%s", szBuffer);
+
+					// Check if EOF (CTRL+'[') has been specified
+					if (strchr(szBuffer,EOF_Char))
+						fContinue = false;
+				}
+			} while (dwBytesRead == sizeof(szBuffer)-1);
+		}
+	} while (fContinue);
 
     // The serial port is now ready and we can send/receive data. If
 	// the following call blocks, then the other side doesn't support

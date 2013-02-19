@@ -46,7 +46,8 @@ void interrupt 21 SCI1_ISR(void){
 }
 
 void main(void){
-  //UserSCI1 = (unsigned short)&SCI1_ISR;
+  UserSCI1 = (unsigned short)&SCI1_ISR;
+  const char *stop = "stop";
   
   DDRB = 0x0F;      //PORTB0-PORTB3  as output 
   DDRP = 0x03;      //PORTP0 and PORTP1 as output for 12EN=1 and 34EN=1
@@ -63,6 +64,11 @@ void main(void){
   
   unsigned char rc = SCI1SR1; /* dummy read to clear flags and TDRE */
   SCI1DRH = 0x0000; /* data write to clear TDRE */
+  
+  while (*stop != '\0'){
+    while (!(SCI1SR1 & 0x80));  /* wait for output buffer empty */
+    SCI1DRL = *stop++;    //transmit back to signal finished scanning
+  }
     
-  while(1);         //Wait for the interrupt forever
+  //while(1);         //Wait for the interrupt forever
 }
