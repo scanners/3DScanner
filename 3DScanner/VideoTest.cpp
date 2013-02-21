@@ -28,8 +28,9 @@ bool serialSetupAndComm(){
 	CSerial serial;
 	LONG lLastError = ERROR_SUCCESS;
 
+	
 	// Attempt to open the serial port (COM1)
-    lLastError = serial.Open(_T("COM1"),0,0,false);
+	lLastError = serial.Open(_T("COM1"),0,0,false);
 	if (lLastError != ERROR_SUCCESS)
 		return ::ShowError(serial.GetLastError(), _T("Unable to open COM-port"));
 	
@@ -42,8 +43,7 @@ bool serialSetupAndComm(){
     lLastError = serial.SetupHandshaking(CSerial::EHandshakeHardware);
 	if (lLastError != ERROR_SUCCESS)
 		return ::ShowError(serial.GetLastError(), _T("Unable to set COM-port handshaking"));
-
-	// Use 'non-blocking' reads, because we don't know how many bytes
+	/*// Use 'non-blocking' reads, because we don't know how many bytes
 	// will be received. This is normally the most convenient mode
 	// (and also the default mode for reading data).
     lLastError = serial.SetupReadTimeouts(CSerial::EReadTimeoutNonblocking);
@@ -85,12 +85,12 @@ bool serialSetupAndComm(){
 				}
 			} while (dwBytesRead == sizeof(szBuffer)-1);
 		}
-	} while (fContinue);
+	} while (fContinue);*/
 
     // The serial port is now ready and we can send/receive data. If
 	// the following call blocks, then the other side doesn't support
 	// hardware handshaking.
-    lLastError = serial.Write("scan\n");
+    lLastError = serial.Write("stop");
 	if (lLastError != ERROR_SUCCESS)
 		return ::ShowError(serial.GetLastError(), _T("Unable to send data"));
 }
@@ -98,7 +98,7 @@ bool serialSetupAndComm(){
 // A Simple Camera Capture Framework 
 int main() {
 	serialSetupAndComm();
-	CvCapture* capture = cvCaptureFromCAM( CV_CAP_ANY );
+	/*CvCapture* capture = cvCaptureFromCAM( CV_CAP_ANY );
 
 	
 
@@ -159,6 +159,6 @@ int main() {
 	cvReleaseCapture( &capture );
 	cvDestroyWindow( "mywindow" );
 	cvDestroyWindow( "mywindowhsv");
-	cvDestroyWindow( "mywindowred");
+	cvDestroyWindow( "mywindowred");*/
 	return 0;
 }
