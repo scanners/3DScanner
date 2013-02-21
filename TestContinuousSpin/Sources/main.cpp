@@ -18,7 +18,7 @@ void MSDelay(unsigned int itime){
 void interrupt SCI1_ISR(void){
   const char *stop = "stop";
   
-  for(int i = 0; i < 150; i++){
+  for(;;){
     PORTB=0b00001010;   
     MSDelay(50);  
     PORTB=0b00000110;    
@@ -58,17 +58,17 @@ int main(void){
   SCI1BDH = 0x00;   //set options for SCI communications and interrupts
   SCI1BDL = 0x34;
   SCI1CR1 = 0x00;
-  SCI1CR2 = 0x2C;
+  SCI1CR2 = 0x34;
   
   asm("cli");       //enable interrupt globally
   
   unsigned char rc = SCI1SR1; /* dummy read to clear flags and TDRE */
   SCI1DRH = 0x0000; /* data write to clear TDRE */
   
-  while (*stop != '\0'){
-    while (!(SCI1SR1 & 0x80));  /* wait for output buffer empty */
-    SCI1DRL = *stop++;    //transmit back to signal finished scanning
-  }
+  //while (*stop != '\0'){
+    //while (!(SCI1SR1 & 0x80));  /* wait for output buffer empty */
+    //SCI1DRL = *stop++;    //transmit back to signal finished scanning
+  //}
     
   while(1);         //Wait for the interrupt forever
   return 0;
