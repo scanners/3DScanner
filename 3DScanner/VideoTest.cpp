@@ -12,6 +12,7 @@ using namespace std;
 using namespace cv;
 
 enum { EOF_Char = 27 };
+CSerial serial;
 
 int ShowError (LONG lError, LPCTSTR lptszMessage)
 {
@@ -25,7 +26,6 @@ int ShowError (LONG lError, LPCTSTR lptszMessage)
 }
 
 bool serialSetupAndComm(){
-	CSerial serial;
 	LONG lLastError = ERROR_SUCCESS;
 
 	
@@ -98,6 +98,8 @@ bool serialSetupAndComm(){
 // A Simple Camera Capture Framework 
 int main() {
 	serialSetupAndComm();
+	serial.Close();
+
 	/*CvCapture* capture = cvCaptureFromCAM( CV_CAP_ANY );
 
 	
