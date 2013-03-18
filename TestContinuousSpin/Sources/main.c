@@ -14,8 +14,13 @@ void MSDelay(unsigned int itime){
 
 #pragma CODE_SEG __NEAR_SEG NON_BANKED
 void interrupt SCI1_ISR(void){
-  const char *stop = "stop";
+  unsigned char rc;
   int i;
+  
+  rc = SCI1SR1; /* dummy read to clear flags */
+  rc = SCI1DRL;
+  MSDelay(20);
+  rc = SCI1DRL;  
   
   for(i = 0; i < 25; i++){
     PORTB=0b00001010;   
@@ -38,7 +43,6 @@ void interrupt SCI1_ISR(void){
   MSDelay(200);
   
   for(i = 0; i < 25; i++){
-   
     PORTB=0b00001001;  
     MSDelay(20);
     PORTB=0b00000101;    
@@ -48,7 +52,8 @@ void interrupt SCI1_ISR(void){
     PORTB=0b00001010;
     MSDelay(20);    
   }
-  asm("rtl");
+  
+  PORTB=0b00000000;  
 }
 
 void main(void){
